@@ -1,1614 +1,463 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Django: the Web framework for perfectionists with deadlines.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="/static/admin/css/fonts.css">
-        <style type="text/css">
-          body, main {
-            margin: 0 auto;
-          }
-          .body, .tip {
-            stroke: #fff;
-          }
-          html {
-            line-height: 1.15;
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
-            box-sizing: border-box;
-          }
-          footer, header, main {
-            display: block;
-          }
-          a {
-            background-color: transparent;
-            -webkit-text-decoration-skip: objects;
-            color: #19865C;
-            text-decoration: none;
-          }
-          img {
-            border-style: none;
-          }
-          header {
-            border-bottom: 1px solid #efefef;
-          }
-          svg:not(:root) {
-            overflow: hidden;
-          }
-          body {
-            max-width: 960px;
-            color: #525252;
-            font-family: Roboto, sans-serif;
-          }
-          main {
-            text-align: center;
-          }
-          .u-clearfix:after {
-            content: "";
-            clear: both;
-            display: table;
-          }
-          .exhaust.two, .fuel, .removehole {
-            display: none;
-          }
-          h1, h2, h3, h4, h5, p, ul {
-            padding: 0;
-            margin: 0;
-            font-weight: 400;
-          }
-          header {
-            padding-top: 20px;
-            padding-bottom: 10px;
-          }
-          .logo {
-            float: left;
-          }
-          .logo h2 {
-            font-weight: 700;
-            margin-top: 0px;
-          }
-          .release-notes {
-            float: right;
-            margin-top: 7px;
-          }
-          .release-notes p {
-            font-size: 14px;
-          }
-          .figure {
-            margin-top: 19vh;
-            height: 173px;
-          }
-          .figure__animation {
-            max-width: 265px;
-            position: relative;
-            z-index: -9;
-          }
-          .tip {
-            stroke-width: 3px;
-            -webkit-transform: translateY(-7px);
-            transform: translateY(-7px);
-          }
-          .body {
-            fill: #6DDCBD;
-            -webkit-transform: scaleX(1.25);
-            transform: scaleX(1.25);
-            -webkit-transform-origin: center;
-            transform-origin: center;
-            stroke-width: 3px;
-          }
-          .box {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-          }
-          .circle {
-            fill: #6DDCBD;
-            stroke: #fff;
-            stroke-width: 7px;
-          }
-          .exhaust {
-            border-bottom-left-radius: 4px;
-          }
-          .exhaust.two, .exhaust__line {
-            -webkit-animation: thurst 70ms infinite ease-in-out alternate;
-            animation: thurst 70ms infinite ease-in-out alternate;
-          }
-          .smoke {
-            -webkit-animation: smoke .1s infinite ease-in-out alternate;
-            animation: smoke .1s infinite ease-in-out alternate;
-            -webkit-transform-origin: center;
-            transform-origin: center;
-            opacity: .8;
-          }
-          @-moz-document url-prefix() {
-            .smoke {
-              animation: smokeFirefox .2s infinite ease-in-out alternate;
-            }
-          }
-          @-webkit-keyframes smoke {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-              transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-            }
-            100% {
-              -webkit-transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-              transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-            }
-          }
-          @keyframes smoke {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-              transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-            }
-            100% {
-              -webkit-transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-              transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-            }
-          }
-          @-webkit-keyframes smokeFirefox {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-              transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-            }
-            100% {
-              -webkit-transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-              transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-            }
-          }
-          @keyframes smokeFirefox {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-              transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-            }
-            100% {
-              -webkit-transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-              transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-            }
-          }
-          .flame 0%, .flame 100% {
-            -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg);
-            transform: translate(265px, 249px) scale(1.9) rotate(180deg);
-          }
-          .flame {
-            -webkit-animation: burnInner2 .1s infinite ease-in-out alternate;
-            animation: burnInner2 .1s infinite ease-in-out alternate;
-          }
-          @-webkit-keyframes burnInner2 {
-            0% {
-              -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-              transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-            }
-            100% {
-              -webkit-transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-              transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-            }
-          }
-          @keyframes burnInner2 {
-            0% {
-              -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-              transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-            }
-            100% {
-              -webkit-transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-              transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-            }
-          }
-          @-webkit-keyframes thurst {
-            0% {
-              opacity: 1;
-            }
-            100% {
-              opacity: .5;
-            }
-          }
-          @keyframes thurst {
-            0% {
-              opacity: 1;
-            }
-            100% {
-              opacity: .5;
-            }
-          }
-          h2 {
-            font-size: 22px;
-            max-width: 500px;
-            margin: 5px auto 0;
-          }
-          main p {
-            font-size: 16px;
-            line-height: 20px;
-            max-width: 390px;
-            margin: 15px auto 0;
-            color: #747755;
-          }
-          footer {
-            padding: 25px 0;
-            position: fixed;
-            left: 50%;
-            bottom: 0;
-            width: 960px;
-            -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-            -webkit-transform-style: preserve-3d;
-            transform-style: preserve-3d;
-            border-top: 1px solid #efefef;
-          }
-          .option {
-            float: left;
-            width: 33.33%;
-            box-sizing: border-box;
-            padding-right: 5px;
-          }
-          .option svg {
-            width: 25px;
-            height: 25px;
-            fill: gray;
-            border: 1px solid #d6d6d6;
-            padding: 5px;
-            border-radius: 100%;
-            float: left;
-            margin-right: 10px;
-          }
-          .option div {
-            display: table;
-          }
-          .option h4 {
-            color: #19865C;
-            font-size: 19px;
-          }
-          .option p {
-            font-weight: 300;
-            font-size: 15px;
-            padding-top: 3px;
-            color: #757575;
-          }
-          @media (max-width: 996px) {
-            body, footer {
-              max-width: 780px;
-            }
-            .logo h2 {
-              margin-left: 0px;
-            }
-          }
-          @media (max-width: 800px) {
-            footer, main {
-              position: relative;
-            }
-            footer {
-              height: 100%;
-            }
-            .option {
-              position: relative;
-              width: 100%;
-              left: auto;
-              right: auto;
-              top: auto;
-              padding: 0 25px;
-              margin-bottom: 60px;
-            }
-            .two {
-              margin-left: 0px;
-              -webkit-transform: none;
-              transform: none;
-            }
-            .logo, .option, .release-notes {
-              float: none;
-            }
-            .figure {
-              margin-top: 10px;
-            }
-            main {
-              padding: 0 25px;
-            }
-            main h2 {
-              font-size: 18px;
-            }
-            main p {
-              font-size: 14px;
-            }
-            header {
-              padding-left: 20px;
-              padding-right: 20px;
-            }
-            footer {
-              overflow: hidden;
-              width: 100%;
-              margin-top: 50px;
-            }
-          }
-          @media (min-width: 801px) and (max-height: 730px) {
-            .figure {
-              margin-top: 80px;
-            }
-          }
-          @media (min-width: 801px) and (max-height: 600px) {
-            footer {
-              position: relative;
-              margin: 135px auto 0;
-            }
-            .figure {
-              margin-top: 50px;
-            }
-          }
-        </style>
-    </head>
-    <body>
-      <header class="u-clearfix">
-          <div class="logo">
-            <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">
-              <h2>django</h2>
-            </a>
-          </div>
-          <div class="release-notes">
-            <p>View <a href="https://docs.djangoproject.com/en/2.1/releases/" target="_blank" rel="noopener">release notes</a> for Django 2.1</p>
-          </div>
-      </header>
-      <main>
-        <div class="figure">
-          <svg class="figure__animation" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#FFF" d="M0 0h512v512H0z"></path>
-            <text transform="translate(97.173 475.104)"></text>
-            <path d="M307.2 224.6c0 4.6-.5 9-1.6 13.2-2.5-4.4-5.6-8.4-9.2-12-4.6-4.6-10-8.4-16-11.2 2.8-11.2 4.5-22.9 5-34.6 1.8 1.4 3.5 2.9 5 4.5 10.5 10.3 16.8 24.5 16.8 40.1zM232.2 214.6c-6 2.8-11.4 6.6-16 11.2-3.5 3.6-6.6 7.6-9.1 12-1-4.3-1.6-8.7-1.6-13.2 0-15.7 6.3-29.9 16.6-40.1 1.6-1.6 3.3-3.1 5.1-4.5.6 11.8 2.2 23.4 5 34.6z" fill="#2E3B39"></path>
-            <path class="body" d="M279.7 217.6c12.9-48.1 5.1-104-23.4-142.6-28.5 38.5-36.2 94.5-23.4 142.6h46.8z" fill="#FF7058"></path>
-            <path class="tip" d="M273 104.7c-4.4-10.6-9.9-20.6-16.6-29.7-6.7 9-12.2 19-16.6 29.7H273z" fill="#2E3B39"></path>
-            <circle cx="256.3" cy="144.8" fill="#FFF" r="15.5"></circle>
-            <circle class="circle" cx="256.3" cy="144.8" fill="#84DBFF" r="12.2"></circle>
-            <path class="removehole" d="M267.5 139.9l-16 16c4.5 2 9.8 1.1 13.5-2.5 3.6-3.7 4.5-9.1 2.5-13.5z" fill="#54C0EB"></path>
-            <path class="fuel" d="M276.8 234.9c.4-2.4.6-5.1.6-7.9 0-12.1-3.9-21.8-8.8-21.8s-8.8 9.8-8.8 21.8c0 2.8.2 5.4.6 7.9h16.4zM252.3 234.9c.4-2.4.6-5.1.6-7.9 0-12.1-3.9-21.8-8.8-21.8-4.8 0-8.8 9.8-8.8 21.8 0 2.8.2 5.4.6 7.9h16.4z" fill="#FFD05B"></path>
-            <path class="smoke" d="M416.6 358.8c0-1.8-.4-3.6-1-5.2-2.1-5.6-7.5-9.6-13.8-9.6-.7 0-1.4.1-2.1.2-.3-9.6-8.2-17.3-17.9-17.3-2.1 0-4.2.4-6.1 1.1-3-5.6-8.9-9.4-15.7-9.4-.5 0-1 0-1.5.1-.5 0-1-.1-1.5-.1-6.8 0-12.7 3.8-15.7 9.4-1.9-.7-3.9-1.1-6.1-1.1-9.9 0-17.9 8-17.9 17.9 0 1.1.1 2.3.3 3.3-.9-.2-1.8-.3-2.8-.3-5.1 0-9.5 2.6-12.1 6.5-2.2-1.4-4.9-2.3-7.8-2.3-7.6 0-13.8 5.9-14.4 13.3h-.1c-5.9 0-11 3.6-13.2 8.7-2.6-3-6.5-5-10.9-5h-.1-.5-.1-.1c-4.3 0-8.2 1.9-10.9 5-2.2-5.1-7.3-8.7-13.2-8.7h-.1c-.6-7.5-6.8-13.3-14.4-13.3-2.9 0-5.5.8-7.8 2.3-2.6-3.9-7-6.5-12.1-6.5-.9 0-1.9.1-2.8.3.2-1.1.3-2.2.3-3.3 0-9.9-8-17.9-17.9-17.9-2.1 0-4.2.4-6.1 1.1-3-5.6-8.9-9.4-15.7-9.4-.5 0-1 0-1.5.1-.5 0-1-.1-1.5-.1-6.8 0-12.7 3.8-15.7 9.4-1.9-.7-3.9-1.1-6.1-1.1-9.7 0-17.6 7.7-17.9 17.3-.7-.1-1.4-.2-2.1-.2-6.3 0-11.7 4-13.8 9.6-.6 1.6-1 3.4-1 5.2 0 4 1.6 7.6 4.2 10.3-.5 1.2-.8 2.6-.8 4 0 6 4.9 10.9 10.9 10.9H402c6 0 10.9-4.9 10.9-10.9 0-1.4-.3-2.8-.8-4 2.9-2.7 4.5-6.3 4.5-10.3z" fill="#E6E9EE"></path>
-            <rect class="exhaust" fill="#6DDCBD" x="241" y="220" width="30" height="8"></rect>
-            <rect class="exhaust two" fill="#FF871C" x="245" y="231" width="20" height="9"></rect>
-            <rect class="exhaust__line" fill="#E6E9EE" x="252" y="240" width="7" height="70"></rect>
-            <path class="flame" d="M 6.7 1.14 l 2.8 4.7 s 1.3 3 -1.82 3.22 l -5.4 0 s -3.28 -.14 -1.74 -3.26 l 2.76 -4.7 s 1.7 -2.3 3.4 0 z" fill="#AA2247"></path>
-          </svg>
-        </div>
-        <h2>The install worked successfully! Congratulations!</h2>
-        <p>You are seeing this page because <a href="https://docs.djangoproject.com/en/2.1/ref/settings/#debug" target="_blank" rel="noopener">DEBUG=True</a> is in your settings file and you have not configured any URLs.</p>
-      </main>
-      <footer class="u-clearfix">
-        <a href="https://docs.djangoproject.com/en/2.1/" target="_blank" rel="noopener">
-        <div class="option one">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <defs>
-                    <path d="M0 0h24v24H0V0z" id="a"></path>
-                </defs>
-                <clipPath id="b">
-                    <use overflow="visible" xlink:href="#a"></use>
-                </clipPath>
-                <path clip-path="url(#b)" d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"></path>
-            </svg>
-            <div>
-                <h4>Django Documentation</h4>
-                <p>Topics, references, &amp; how-to's</p>
-            </div>
-        </div>
-      </a>
-      <a href="https://docs.djangoproject.com/en/2.1/intro/tutorial01/" target="_blank" rel="noopener">
-        <div class="option two">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0V0z" fill="none"></path>
-            <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"></path>
-          </svg>
-          <div>
-            <h4>Tutorial: A Polling App</h4>
-            <p>Get started with Django</p>
-          </div>
-        </div>
-      </a>
-      <a href="https://www.djangoproject.com/community/" target="_blank" rel="noopener">
-        <div class="option three">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-          </svg>
-          <div>
-            <h4>Django Community</h4>
-            <p>Connect, get help, or contribute</p>
-          </div>
-        </div>
-      </a>
-      </footer>
-    </body>
-</html>
-[root@hex ~]# curl http://127.0.0.1:8000/
 
 <!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Django: the Web framework for perfectionists with deadlines.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="/static/admin/css/fonts.css">
-        <style type="text/css">
-          body, main {
-            margin: 0 auto;
-          }
-          .body, .tip {
-            stroke: #fff;
-          }
-          html {
-            line-height: 1.15;
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
-            box-sizing: border-box;
-          }
-          footer, header, main {
-            display: block;
-          }
-          a {
-            background-color: transparent;
-            -webkit-text-decoration-skip: objects;
-            color: #19865C;
-            text-decoration: none;
-          }
-          img {
-            border-style: none;
-          }
-          header {
-            border-bottom: 1px solid #efefef;
-          }
-          svg:not(:root) {
-            overflow: hidden;
-          }
-          body {
-            max-width: 960px;
-            color: #525252;
-            font-family: Roboto, sans-serif;
-          }
-          main {
-            text-align: center;
-          }
-          .u-clearfix:after {
-            content: "";
-            clear: both;
-            display: table;
-          }
-          .exhaust.two, .fuel, .removehole {
-            display: none;
-          }
-          h1, h2, h3, h4, h5, p, ul {
-            padding: 0;
-            margin: 0;
-            font-weight: 400;
-          }
-          header {
-            padding-top: 20px;
-            padding-bottom: 10px;
-          }
-          .logo {
-            float: left;
-          }
-          .logo h2 {
-            font-weight: 700;
-            margin-top: 0px;
-          }
-          .release-notes {
-            float: right;
-            margin-top: 7px;
-          }
-          .release-notes p {
-            font-size: 14px;
-          }
-          .figure {
-            margin-top: 19vh;
-            height: 173px;
-          }
-          .figure__animation {
-            max-width: 265px;
-            position: relative;
-            z-index: -9;
-          }
-          .tip {
-            stroke-width: 3px;
-            -webkit-transform: translateY(-7px);
-            transform: translateY(-7px);
-          }
-          .body {
-            fill: #6DDCBD;
-            -webkit-transform: scaleX(1.25);
-            transform: scaleX(1.25);
-            -webkit-transform-origin: center;
-            transform-origin: center;
-            stroke-width: 3px;
-          }
-          .box {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-          }
-          .circle {
-            fill: #6DDCBD;
-            stroke: #fff;
-            stroke-width: 7px;
-          }
-          .exhaust {
-            border-bottom-left-radius: 4px;
-          }
-          .exhaust.two, .exhaust__line {
-            -webkit-animation: thurst 70ms infinite ease-in-out alternate;
-            animation: thurst 70ms infinite ease-in-out alternate;
-          }
-          .smoke {
-            -webkit-animation: smoke .1s infinite ease-in-out alternate;
-            animation: smoke .1s infinite ease-in-out alternate;
-            -webkit-transform-origin: center;
-            transform-origin: center;
-            opacity: .8;
-          }
-          @-moz-document url-prefix() {
-            .smoke {
-              animation: smokeFirefox .2s infinite ease-in-out alternate;
-            }
-          }
-          @-webkit-keyframes smoke {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-              transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-            }
-            100% {
-              -webkit-transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-              transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-            }
-          }
-          @keyframes smoke {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-              transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-            }
-            100% {
-              -webkit-transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-              transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-            }
-          }
-          @-webkit-keyframes smokeFirefox {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-              transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-            }
-            100% {
-              -webkit-transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-              transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-            }
-          }
-          @keyframes smokeFirefox {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-              transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-            }
-            100% {
-              -webkit-transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-              transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-            }
-          }
-          .flame 0%, .flame 100% {
-            -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg);
-            transform: translate(265px, 249px) scale(1.9) rotate(180deg);
-          }
-          .flame {
-            -webkit-animation: burnInner2 .1s infinite ease-in-out alternate;
-            animation: burnInner2 .1s infinite ease-in-out alternate;
-          }
-          @-webkit-keyframes burnInner2 {
-            0% {
-              -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-              transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-            }
-            100% {
-              -webkit-transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-              transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-            }
-          }
-          @keyframes burnInner2 {
-            0% {
-              -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-              transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-            }
-            100% {
-              -webkit-transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-              transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-            }
-          }
-          @-webkit-keyframes thurst {
-            0% {
-              opacity: 1;
-            }
-            100% {
-              opacity: .5;
-            }
-          }
-          @keyframes thurst {
-            0% {
-              opacity: 1;
-            }
-            100% {
-              opacity: .5;
-            }
-          }
-          h2 {
-            font-size: 22px;
-            max-width: 500px;
-            margin: 5px auto 0;
-          }
-          main p {
-            font-size: 16px;
-            line-height: 20px;
-            max-width: 390px;
-            margin: 15px auto 0;
-            color: #747755;
-          }
-          footer {
-            padding: 25px 0;
-            position: fixed;
-            left: 50%;
-            bottom: 0;
-            width: 960px;
-            -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-            -webkit-transform-style: preserve-3d;
-            transform-style: preserve-3d;
-            border-top: 1px solid #efefef;
-          }
-          .option {
-            float: left;
-            width: 33.33%;
-            box-sizing: border-box;
-            padding-right: 5px;
-          }
-          .option svg {
-            width: 25px;
-            height: 25px;
-            fill: gray;
-            border: 1px solid #d6d6d6;
-            padding: 5px;
-            border-radius: 100%;
-            float: left;
-            margin-right: 10px;
-          }
-          .option div {
-            display: table;
-          }
-          .option h4 {
-            color: #19865C;
-            font-size: 19px;
-          }
-          .option p {
-            font-weight: 300;
-            font-size: 15px;
-            padding-top: 3px;
-            color: #757575;
-          }
-          @media (max-width: 996px) {
-            body, footer {
-              max-width: 780px;
-            }
-            .logo h2 {
-              margin-left: 0px;
-            }
-          }
-          @media (max-width: 800px) {
-            footer, main {
-              position: relative;
-            }
-            footer {
-              height: 100%;
-            }
-            .option {
-              position: relative;
-              width: 100%;
-              left: auto;
-              right: auto;
-              top: auto;
-              padding: 0 25px;
-              margin-bottom: 60px;
-            }
-            .two {
-              margin-left: 0px;
-              -webkit-transform: none;
-              transform: none;
-            }
-            .logo, .option, .release-notes {
-              float: none;
-            }
-            .figure {
-              margin-top: 10px;
-            }
-            main {
-              padding: 0 25px;
-            }
-            main h2 {
-              font-size: 18px;
-            }
-            main p {
-              font-size: 14px;
-            }
-            header {
-              padding-left: 20px;
-              padding-right: 20px;
-            }
-            footer {
-              overflow: hidden;
-              width: 100%;
-              margin-top: 50px;
-            }
-          }
-          @media (min-width: 801px) and (max-height: 730px) {
-            .figure {
-              margin-top: 80px;
-            }
-          }
-          @media (min-width: 801px) and (max-height: 600px) {
-            footer {
-              position: relative;
-              margin: 135px auto 0;
-            }
-            .figure {
-              margin-top: 50px;
-            }
-          }
-        </style>
-    </head>
-    <body>
-      <header class="u-clearfix">
-          <div class="logo">
-            <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">
-              <h2>django</h2>
-            </a>
-          </div>
-          <div class="release-notes">
-            <p>View <a href="https://docs.djangoproject.com/en/2.1/releases/" target="_blank" rel="noopener">release notes</a> for Django 2.1</p>
-          </div>
-      </header>
-      <main>
-        <div class="figure">
-          <svg class="figure__animation" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#FFF" d="M0 0h512v512H0z"></path>
-            <text transform="translate(97.173 475.104)"></text>
-            <path d="M307.2 224.6c0 4.6-.5 9-1.6 13.2-2.5-4.4-5.6-8.4-9.2-12-4.6-4.6-10-8.4-16-11.2 2.8-11.2 4.5-22.9 5-34.6 1.8 1.4 3.5 2.9 5 4.5 10.5 10.3 16.8 24.5 16.8 40.1zM232.2 214.6c-6 2.8-11.4 6.6-16 11.2-3.5 3.6-6.6 7.6-9.1 12-1-4.3-1.6-8.7-1.6-13.2 0-15.7 6.3-29.9 16.6-40.1 1.6-1.6 3.3-3.1 5.1-4.5.6 11.8 2.2 23.4 5 34.6z" fill="#2E3B39"></path>
-            <path class="body" d="M279.7 217.6c12.9-48.1 5.1-104-23.4-142.6-28.5 38.5-36.2 94.5-23.4 142.6h46.8z" fill="#FF7058"></path>
-            <path class="tip" d="M273 104.7c-4.4-10.6-9.9-20.6-16.6-29.7-6.7 9-12.2 19-16.6 29.7H273z" fill="#2E3B39"></path>
-            <circle cx="256.3" cy="144.8" fill="#FFF" r="15.5"></circle>
-            <circle class="circle" cx="256.3" cy="144.8" fill="#84DBFF" r="12.2"></circle>
-            <path class="removehole" d="M267.5 139.9l-16 16c4.5 2 9.8 1.1 13.5-2.5 3.6-3.7 4.5-9.1 2.5-13.5z" fill="#54C0EB"></path>
-            <path class="fuel" d="M276.8 234.9c.4-2.4.6-5.1.6-7.9 0-12.1-3.9-21.8-8.8-21.8s-8.8 9.8-8.8 21.8c0 2.8.2 5.4.6 7.9h16.4zM252.3 234.9c.4-2.4.6-5.1.6-7.9 0-12.1-3.9-21.8-8.8-21.8-4.8 0-8.8 9.8-8.8 21.8 0 2.8.2 5.4.6 7.9h16.4z" fill="#FFD05B"></path>
-            <path class="smoke" d="M416.6 358.8c0-1.8-.4-3.6-1-5.2-2.1-5.6-7.5-9.6-13.8-9.6-.7 0-1.4.1-2.1.2-.3-9.6-8.2-17.3-17.9-17.3-2.1 0-4.2.4-6.1 1.1-3-5.6-8.9-9.4-15.7-9.4-.5 0-1 0-1.5.1-.5 0-1-.1-1.5-.1-6.8 0-12.7 3.8-15.7 9.4-1.9-.7-3.9-1.1-6.1-1.1-9.9 0-17.9 8-17.9 17.9 0 1.1.1 2.3.3 3.3-.9-.2-1.8-.3-2.8-.3-5.1 0-9.5 2.6-12.1 6.5-2.2-1.4-4.9-2.3-7.8-2.3-7.6 0-13.8 5.9-14.4 13.3h-.1c-5.9 0-11 3.6-13.2 8.7-2.6-3-6.5-5-10.9-5h-.1-.5-.1-.1c-4.3 0-8.2 1.9-10.9 5-2.2-5.1-7.3-8.7-13.2-8.7h-.1c-.6-7.5-6.8-13.3-14.4-13.3-2.9 0-5.5.8-7.8 2.3-2.6-3.9-7-6.5-12.1-6.5-.9 0-1.9.1-2.8.3.2-1.1.3-2.2.3-3.3 0-9.9-8-17.9-17.9-17.9-2.1 0-4.2.4-6.1 1.1-3-5.6-8.9-9.4-15.7-9.4-.5 0-1 0-1.5.1-.5 0-1-.1-1.5-.1-6.8 0-12.7 3.8-15.7 9.4-1.9-.7-3.9-1.1-6.1-1.1-9.7 0-17.6 7.7-17.9 17.3-.7-.1-1.4-.2-2.1-.2-6.3 0-11.7 4-13.8 9.6-.6 1.6-1 3.4-1 5.2 0 4 1.6 7.6 4.2 10.3-.5 1.2-.8 2.6-.8 4 0 6 4.9 10.9 10.9 10.9H402c6 0 10.9-4.9 10.9-10.9 0-1.4-.3-2.8-.8-4 2.9-2.7 4.5-6.3 4.5-10.3z" fill="#E6E9EE"></path>
-            <rect class="exhaust" fill="#6DDCBD" x="241" y="220" width="30" height="8"></rect>
-            <rect class="exhaust two" fill="#FF871C" x="245" y="231" width="20" height="9"></rect>
-            <rect class="exhaust__line" fill="#E6E9EE" x="252" y="240" width="7" height="70"></rect>
-            <path class="flame" d="M 6.7 1.14 l 2.8 4.7 s 1.3 3 -1.82 3.22 l -5.4 0 s -3.28 -.14 -1.74 -3.26 l 2.76 -4.7 s 1.7 -2.3 3.4 0 z" fill="#AA2247"></path>
-          </svg>
-        </div>
-        <h2>The install worked successfully! Congratulations!</h2>
-        <p>You are seeing this page because <a href="https://docs.djangoproject.com/en/2.1/ref/settings/#debug" target="_blank" rel="noopener">DEBUG=True</a> is in your settings file and you have not configured any URLs.</p>
-      </main>
-      <footer class="u-clearfix">
-        <a href="https://docs.djangoproject.com/en/2.1/" target="_blank" rel="noopener">
-        <div class="option one">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <defs>
-                    <path d="M0 0h24v24H0V0z" id="a"></path>
-                </defs>
-                <clipPath id="b">
-                    <use overflow="visible" xlink:href="#a"></use>
-                </clipPath>
-                <path clip-path="url(#b)" d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"></path>
-            </svg>
-            <div>
-                <h4>Django Documentation</h4>
-                <p>Topics, references, &amp; how-to's</p>
-            </div>
-        </div>
-      </a>
-      <a href="https://docs.djangoproject.com/en/2.1/intro/tutorial01/" target="_blank" rel="noopener">
-        <div class="option two">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0V0z" fill="none"></path>
-            <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"></path>
-          </svg>
-          <div>
-            <h4>Tutorial: A Polling App</h4>
-            <p>Get started with Django</p>
-          </div>
-        </div>
-      </a>
-      <a href="https://www.djangoproject.com/community/" target="_blank" rel="noopener">
-        <div class="option three">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-          </svg>
-          <div>
-            <h4>Django Community</h4>
-            <p>Connect, get help, or contribute</p>
-          </div>
-        </div>
-      </a>
-      </footer>
-    </body>
-</html>
-[root@hex ~]# curl http://127.0.0.1:8000/
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../../../favicon.ico">
 
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Django: the Web framework for perfectionists with deadlines.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="/static/admin/css/fonts.css">
-        <style type="text/css">
-          body, main {
-            margin: 0 auto;
-          }
-          .body, .tip {
-            stroke: #fff;
-          }
-          html {
-            line-height: 1.15;
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
-            box-sizing: border-box;
-          }
-          footer, header, main {
-            display: block;
-          }
-          a {
-            background-color: transparent;
-            -webkit-text-decoration-skip: objects;
-            color: #19865C;
-            text-decoration: none;
-          }
-          img {
-            border-style: none;
-          }
-          header {
-            border-bottom: 1px solid #efefef;
-          }
-          svg:not(:root) {
-            overflow: hidden;
-          }
-          body {
-            max-width: 960px;
-            color: #525252;
-            font-family: Roboto, sans-serif;
-          }
-          main {
-            text-align: center;
-          }
-          .u-clearfix:after {
-            content: "";
-            clear: both;
-            display: table;
-          }
-          .exhaust.two, .fuel, .removehole {
-            display: none;
-          }
-          h1, h2, h3, h4, h5, p, ul {
-            padding: 0;
-            margin: 0;
-            font-weight: 400;
-          }
-          header {
-            padding-top: 20px;
-            padding-bottom: 10px;
-          }
-          .logo {
-            float: left;
-          }
-          .logo h2 {
-            font-weight: 700;
-            margin-top: 0px;
-          }
-          .release-notes {
-            float: right;
-            margin-top: 7px;
-          }
-          .release-notes p {
-            font-size: 14px;
-          }
-          .figure {
-            margin-top: 19vh;
-            height: 173px;
-          }
-          .figure__animation {
-            max-width: 265px;
-            position: relative;
-            z-index: -9;
-          }
-          .tip {
-            stroke-width: 3px;
-            -webkit-transform: translateY(-7px);
-            transform: translateY(-7px);
-          }
-          .body {
-            fill: #6DDCBD;
-            -webkit-transform: scaleX(1.25);
-            transform: scaleX(1.25);
-            -webkit-transform-origin: center;
-            transform-origin: center;
-            stroke-width: 3px;
-          }
-          .box {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-          }
-          .circle {
-            fill: #6DDCBD;
-            stroke: #fff;
-            stroke-width: 7px;
-          }
-          .exhaust {
-            border-bottom-left-radius: 4px;
-          }
-          .exhaust.two, .exhaust__line {
-            -webkit-animation: thurst 70ms infinite ease-in-out alternate;
-            animation: thurst 70ms infinite ease-in-out alternate;
-          }
-          .smoke {
-            -webkit-animation: smoke .1s infinite ease-in-out alternate;
-            animation: smoke .1s infinite ease-in-out alternate;
-            -webkit-transform-origin: center;
-            transform-origin: center;
-            opacity: .8;
-          }
-          @-moz-document url-prefix() {
-            .smoke {
-              animation: smokeFirefox .2s infinite ease-in-out alternate;
-            }
-          }
-          @-webkit-keyframes smoke {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-              transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-            }
-            100% {
-              -webkit-transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-              transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-            }
-          }
-          @keyframes smoke {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-              transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-            }
-            100% {
-              -webkit-transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-              transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-            }
-          }
-          @-webkit-keyframes smokeFirefox {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-              transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-            }
-            100% {
-              -webkit-transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-              transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-            }
-          }
-          @keyframes smokeFirefox {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-              transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-            }
-            100% {
-              -webkit-transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-              transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-            }
-          }
-          .flame 0%, .flame 100% {
-            -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg);
-            transform: translate(265px, 249px) scale(1.9) rotate(180deg);
-          }
-          .flame {
-            -webkit-animation: burnInner2 .1s infinite ease-in-out alternate;
-            animation: burnInner2 .1s infinite ease-in-out alternate;
-          }
-          @-webkit-keyframes burnInner2 {
-            0% {
-              -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-              transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-            }
-            100% {
-              -webkit-transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-              transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-            }
-          }
-          @keyframes burnInner2 {
-            0% {
-              -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-              transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-            }
-            100% {
-              -webkit-transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-              transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-            }
-          }
-          @-webkit-keyframes thurst {
-            0% {
-              opacity: 1;
-            }
-            100% {
-              opacity: .5;
-            }
-          }
-          @keyframes thurst {
-            0% {
-              opacity: 1;
-            }
-            100% {
-              opacity: .5;
-            }
-          }
-          h2 {
-            font-size: 22px;
-            max-width: 500px;
-            margin: 5px auto 0;
-          }
-          main p {
-            font-size: 16px;
-            line-height: 20px;
-            max-width: 390px;
-            margin: 15px auto 0;
-            color: #747755;
-          }
-          footer {
-            padding: 25px 0;
-            position: fixed;
-            left: 50%;
-            bottom: 0;
-            width: 960px;
-            -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-            -webkit-transform-style: preserve-3d;
-            transform-style: preserve-3d;
-            border-top: 1px solid #efefef;
-          }
-          .option {
-            float: left;
-            width: 33.33%;
-            box-sizing: border-box;
-            padding-right: 5px;
-          }
-          .option svg {
-            width: 25px;
-            height: 25px;
-            fill: gray;
-            border: 1px solid #d6d6d6;
-            padding: 5px;
-            border-radius: 100%;
-            float: left;
-            margin-right: 10px;
-          }
-          .option div {
-            display: table;
-          }
-          .option h4 {
-            color: #19865C;
-            font-size: 19px;
-          }
-          .option p {
-            font-weight: 300;
-            font-size: 15px;
-            padding-top: 3px;
-            color: #757575;
-          }
-          @media (max-width: 996px) {
-            body, footer {
-              max-width: 780px;
-            }
-            .logo h2 {
-              margin-left: 0px;
-            }
-          }
-          @media (max-width: 800px) {
-            footer, main {
-              position: relative;
-            }
-            footer {
-              height: 100%;
-            }
-            .option {
-              position: relative;
-              width: 100%;
-              left: auto;
-              right: auto;
-              top: auto;
-              padding: 0 25px;
-              margin-bottom: 60px;
-            }
-            .two {
-              margin-left: 0px;
-              -webkit-transform: none;
-              transform: none;
-            }
-            .logo, .option, .release-notes {
-              float: none;
-            }
-            .figure {
-              margin-top: 10px;
-            }
-            main {
-              padding: 0 25px;
-            }
-            main h2 {
-              font-size: 18px;
-            }
-            main p {
-              font-size: 14px;
-            }
-            header {
-              padding-left: 20px;
-              padding-right: 20px;
-            }
-            footer {
-              overflow: hidden;
-              width: 100%;
-              margin-top: 50px;
-            }
-          }
-          @media (min-width: 801px) and (max-height: 730px) {
-            .figure {
-              margin-top: 80px;
-            }
-          }
-          @media (min-width: 801px) and (max-height: 600px) {
-            footer {
-              position: relative;
-              margin: 135px auto 0;
-            }
-            .figure {
-              margin-top: 50px;
-            }
-          }
-        </style>
-    </head>
-    <body>
-      <header class="u-clearfix">
-          <div class="logo">
-            <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">
-              <h2>django</h2>
-            </a>
-          </div>
-          <div class="release-notes">
-            <p>View <a href="https://docs.djangoproject.com/en/2.1/releases/" target="_blank" rel="noopener">release notes</a> for Django 2.1</p>
-          </div>
-      </header>
-      <main>
-        <div class="figure">
-          <svg class="figure__animation" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#FFF" d="M0 0h512v512H0z"></path>
-            <text transform="translate(97.173 475.104)"></text>
-            <path d="M307.2 224.6c0 4.6-.5 9-1.6 13.2-2.5-4.4-5.6-8.4-9.2-12-4.6-4.6-10-8.4-16-11.2 2.8-11.2 4.5-22.9 5-34.6 1.8 1.4 3.5 2.9 5 4.5 10.5 10.3 16.8 24.5 16.8 40.1zM232.2 214.6c-6 2.8-11.4 6.6-16 11.2-3.5 3.6-6.6 7.6-9.1 12-1-4.3-1.6-8.7-1.6-13.2 0-15.7 6.3-29.9 16.6-40.1 1.6-1.6 3.3-3.1 5.1-4.5.6 11.8 2.2 23.4 5 34.6z" fill="#2E3B39"></path>
-            <path class="body" d="M279.7 217.6c12.9-48.1 5.1-104-23.4-142.6-28.5 38.5-36.2 94.5-23.4 142.6h46.8z" fill="#FF7058"></path>
-            <path class="tip" d="M273 104.7c-4.4-10.6-9.9-20.6-16.6-29.7-6.7 9-12.2 19-16.6 29.7H273z" fill="#2E3B39"></path>
-            <circle cx="256.3" cy="144.8" fill="#FFF" r="15.5"></circle>
-            <circle class="circle" cx="256.3" cy="144.8" fill="#84DBFF" r="12.2"></circle>
-            <path class="removehole" d="M267.5 139.9l-16 16c4.5 2 9.8 1.1 13.5-2.5 3.6-3.7 4.5-9.1 2.5-13.5z" fill="#54C0EB"></path>
-            <path class="fuel" d="M276.8 234.9c.4-2.4.6-5.1.6-7.9 0-12.1-3.9-21.8-8.8-21.8s-8.8 9.8-8.8 21.8c0 2.8.2 5.4.6 7.9h16.4zM252.3 234.9c.4-2.4.6-5.1.6-7.9 0-12.1-3.9-21.8-8.8-21.8-4.8 0-8.8 9.8-8.8 21.8 0 2.8.2 5.4.6 7.9h16.4z" fill="#FFD05B"></path>
-            <path class="smoke" d="M416.6 358.8c0-1.8-.4-3.6-1-5.2-2.1-5.6-7.5-9.6-13.8-9.6-.7 0-1.4.1-2.1.2-.3-9.6-8.2-17.3-17.9-17.3-2.1 0-4.2.4-6.1 1.1-3-5.6-8.9-9.4-15.7-9.4-.5 0-1 0-1.5.1-.5 0-1-.1-1.5-.1-6.8 0-12.7 3.8-15.7 9.4-1.9-.7-3.9-1.1-6.1-1.1-9.9 0-17.9 8-17.9 17.9 0 1.1.1 2.3.3 3.3-.9-.2-1.8-.3-2.8-.3-5.1 0-9.5 2.6-12.1 6.5-2.2-1.4-4.9-2.3-7.8-2.3-7.6 0-13.8 5.9-14.4 13.3h-.1c-5.9 0-11 3.6-13.2 8.7-2.6-3-6.5-5-10.9-5h-.1-.5-.1-.1c-4.3 0-8.2 1.9-10.9 5-2.2-5.1-7.3-8.7-13.2-8.7h-.1c-.6-7.5-6.8-13.3-14.4-13.3-2.9 0-5.5.8-7.8 2.3-2.6-3.9-7-6.5-12.1-6.5-.9 0-1.9.1-2.8.3.2-1.1.3-2.2.3-3.3 0-9.9-8-17.9-17.9-17.9-2.1 0-4.2.4-6.1 1.1-3-5.6-8.9-9.4-15.7-9.4-.5 0-1 0-1.5.1-.5 0-1-.1-1.5-.1-6.8 0-12.7 3.8-15.7 9.4-1.9-.7-3.9-1.1-6.1-1.1-9.7 0-17.6 7.7-17.9 17.3-.7-.1-1.4-.2-2.1-.2-6.3 0-11.7 4-13.8 9.6-.6 1.6-1 3.4-1 5.2 0 4 1.6 7.6 4.2 10.3-.5 1.2-.8 2.6-.8 4 0 6 4.9 10.9 10.9 10.9H402c6 0 10.9-4.9 10.9-10.9 0-1.4-.3-2.8-.8-4 2.9-2.7 4.5-6.3 4.5-10.3z" fill="#E6E9EE"></path>
-            <rect class="exhaust" fill="#6DDCBD" x="241" y="220" width="30" height="8"></rect>
-            <rect class="exhaust two" fill="#FF871C" x="245" y="231" width="20" height="9"></rect>
-            <rect class="exhaust__line" fill="#E6E9EE" x="252" y="240" width="7" height="70"></rect>
-            <path class="flame" d="M 6.7 1.14 l 2.8 4.7 s 1.3 3 -1.82 3.22 l -5.4 0 s -3.28 -.14 -1.74 -3.26 l 2.76 -4.7 s 1.7 -2.3 3.4 0 z" fill="#AA2247"></path>
-          </svg>
-        </div>
-        <h2>The install worked successfully! Congratulations!</h2>
-        <p>You are seeing this page because <a href="https://docs.djangoproject.com/en/2.1/ref/settings/#debug" target="_blank" rel="noopener">DEBUG=True</a> is in your settings file and you have not configured any URLs.</p>
-      </main>
-      <footer class="u-clearfix">
-[root@hex ~]# curl http://127.0.0.1:8000/
+    <title>Product example for Bootstrap</title>
 
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Django: the Web framework for perfectionists with deadlines.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="/static/admin/css/fonts.css">
-        <style type="text/css">
-          body, main {
-            margin: 0 auto;
-          }
-          .body, .tip {
-            stroke: #fff;
-          }
-          html {
-            line-height: 1.15;
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
-            box-sizing: border-box;
-          }
-          footer, header, main {
-            display: block;
-          }
-          a {
-            background-color: transparent;
-            -webkit-text-decoration-skip: objects;
-            color: #19865C;
-            text-decoration: none;
-          }
-          img {
-            border-style: none;
-          }
-          header {
-            border-bottom: 1px solid #efefef;
-          }
-          svg:not(:root) {
-            overflow: hidden;
-          }
-          body {
-            max-width: 960px;
-            color: #525252;
-            font-family: Roboto, sans-serif;
-          }
-          main {
-            text-align: center;
-          }
-          .u-clearfix:after {
-            content: "";
-            clear: both;
-            display: table;
-          }
-          .exhaust.two, .fuel, .removehole {
-            display: none;
-          }
-          h1, h2, h3, h4, h5, p, ul {
-            padding: 0;
-            margin: 0;
-            font-weight: 400;
-          }
-          header {
-            padding-top: 20px;
-            padding-bottom: 10px;
-          }
-          .logo {
-            float: left;
-          }
-          .logo h2 {
-            font-weight: 700;
-            margin-top: 0px;
-          }
-          .release-notes {
-            float: right;
-            margin-top: 7px;
-          }
-          .release-notes p {
-            font-size: 14px;
-          }
-          .figure {
-            margin-top: 19vh;
-            height: 173px;
-          }
-          .figure__animation {
-            max-width: 265px;
-            position: relative;
-            z-index: -9;
-          }
-          .tip {
-            stroke-width: 3px;
-            -webkit-transform: translateY(-7px);
-            transform: translateY(-7px);
-          }
-          .body {
-            fill: #6DDCBD;
-            -webkit-transform: scaleX(1.25);
-            transform: scaleX(1.25);
-            -webkit-transform-origin: center;
-            transform-origin: center;
-            stroke-width: 3px;
-          }
-          .box {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-          }
-          .circle {
-            fill: #6DDCBD;
-            stroke: #fff;
-            stroke-width: 7px;
-          }
-          .exhaust {
-            border-bottom-left-radius: 4px;
-          }
-          .exhaust.two, .exhaust__line {
-            -webkit-animation: thurst 70ms infinite ease-in-out alternate;
-            animation: thurst 70ms infinite ease-in-out alternate;
-          }
-          .smoke {
-            -webkit-animation: smoke .1s infinite ease-in-out alternate;
-            animation: smoke .1s infinite ease-in-out alternate;
-            -webkit-transform-origin: center;
-            transform-origin: center;
-            opacity: .8;
-          }
-          @-moz-document url-prefix() {
-            .smoke {
-              animation: smokeFirefox .2s infinite ease-in-out alternate;
-            }
-          }
-          @-webkit-keyframes smoke {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-              transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-            }
-            100% {
-              -webkit-transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-              transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-            }
-          }
-          @keyframes smoke {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-              transform: scale(1.58, 1.2) translateY(-55px) skew(3deg);
-            }
-            100% {
-              -webkit-transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-              transform: scale(1.6, 1.22) translateY(-55px) skew(-3deg);
-            }
-          }
-          @-webkit-keyframes smokeFirefox {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-              transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-            }
-            100% {
-              -webkit-transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-              transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-            }
-          }
-          @keyframes smokeFirefox {
-            0% {
-              -webkit-transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-              transform: scale(1.58, 1.2) translateY(-75px) skew(0);
-            }
-            100% {
-              -webkit-transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-              transform: scale(1.58, 1.21) translateY(-75px) skew(1deg);
-            }
-          }
-          .flame 0%, .flame 100% {
-            -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg);
-            transform: translate(265px, 249px) scale(1.9) rotate(180deg);
-          }
-          .flame {
-            -webkit-animation: burnInner2 .1s infinite ease-in-out alternate;
-            animation: burnInner2 .1s infinite ease-in-out alternate;
-          }
-          @-webkit-keyframes burnInner2 {
-            0% {
-              -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-              transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-            }
-            100% {
-              -webkit-transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-              transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-            }
-          }
-          @keyframes burnInner2 {
-            0% {
-              -webkit-transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-              transform: translate(265px, 249px) scale(1.9) rotate(180deg) skew(5deg);
-            }
-            100% {
-              -webkit-transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-              transform: translate(265px, 253px) scale(2.2) rotate(180deg) skew(-5deg);
-            }
-          }
-          @-webkit-keyframes thurst {
-            0% {
-              opacity: 1;
-            }
-            100% {
-              opacity: .5;
-            }
-          }
-          @keyframes thurst {
-            0% {
-              opacity: 1;
-            }
-            100% {
-              opacity: .5;
-            }
-          }
-          h2 {
-            font-size: 22px;
-            max-width: 500px;
-            margin: 5px auto 0;
-          }
-          main p {
-            font-size: 16px;
-            line-height: 20px;
-            max-width: 390px;
-            margin: 15px auto 0;
-            color: #747755;
-          }
-          footer {
-            padding: 25px 0;
-            position: fixed;
-            left: 50%;
-            bottom: 0;
-            width: 960px;
-            -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-            -webkit-transform-style: preserve-3d;
-            transform-style: preserve-3d;
-            border-top: 1px solid #efefef;
-          }
-          .option {
-            float: left;
-            width: 33.33%;
-            box-sizing: border-box;
-            padding-right: 5px;
-          }
-          .option svg {
-            width: 25px;
-            height: 25px;
-            fill: gray;
-            border: 1px solid #d6d6d6;
-            padding: 5px;
-            border-radius: 100%;
-            float: left;
-            margin-right: 10px;
-          }
-          .option div {
-            display: table;
-          }
-          .option h4 {
-            color: #19865C;
-            font-size: 19px;
-          }
-          .option p {
-            font-weight: 300;
-            font-size: 15px;
-            padding-top: 3px;
-            color: #757575;
-          }
-          @media (max-width: 996px) {
-            body, footer {
-              max-width: 780px;
-            }
-            .logo h2 {
-              margin-left: 0px;
-            }
-          }
-          @media (max-width: 800px) {
-            footer, main {
-              position: relative;
-            }
-            footer {
-              height: 100%;
-            }
-            .option {
-              position: relative;
-              width: 100%;
-              left: auto;
-              right: auto;
-              top: auto;
-              padding: 0 25px;
-              margin-bottom: 60px;
-            }
-            .two {
-              margin-left: 0px;
-              -webkit-transform: none;
-              transform: none;
-            }
-            .logo, .option, .release-notes {
-              float: none;
-            }
-            .figure {
-              margin-top: 10px;
-            }
-            main {
-              padding: 0 25px;
-            }
-            main h2 {
-              font-size: 18px;
-            }
-            main p {
-              font-size: 14px;
-            }
-            header {
-              padding-left: 20px;
-              padding-right: 20px;
-            }
-            footer {
-              overflow: hidden;
-              width: 100%;
-              margin-top: 50px;
-            }
-          }
-          @media (min-width: 801px) and (max-height: 730px) {
-            .figure {
-              margin-top: 80px;
-            }
-          }
-          @media (min-width: 801px) and (max-height: 600px) {
-            footer {
-              position: relative;
-              margin: 135px auto 0;
-            }
-            .figure {
-              margin-top: 50px;
-            }
-          }
-        </style>
-    </head>
-    <body>
-      <header class="u-clearfix">
-          <div class="logo">
-            <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">
-              <h2>django</h2>
-            </a>
-          </div>
-          <div class="release-notes">
-            <p>View <a href="https://docs.djangoproject.com/en/2.1/releases/" target="_blank" rel="noopener">release notes</a> for Django 2.1</p>
-          </div>
-      </header>
-      <main>
-        <div class="figure">
-          <svg class="figure__animation" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#FFF" d="M0 0h512v512H0z"></path>
-            <text transform="translate(97.173 475.104)"></text>
-            <path d="M307.2 224.6c0 4.6-.5 9-1.6 13.2-2.5-4.4-5.6-8.4-9.2-12-4.6-4.6-10-8.4-16-11.2 2.8-11.2 4.5-22.9 5-34.6 1.8 1.4 3.5 2.9 5 4.5 10.5 10.3 16.8 24.5 16.8 40.1zM232.2 214.6c-6 2.8-11.4 6.6-16 11.2-3.5 3.6-6.6 7.6-9.1 12-1-4.3-1.6-8.7-1.6-13.2 0-15.7 6.3-29.9 16.6-40.1 1.6-1.6 3.3-3.1 5.1-4.5.6 11.8 2.2 23.4 5 34.6z" fill="#2E3B39"></path>
-            <path class="body" d="M279.7 217.6c12.9-48.1 5.1-104-23.4-142.6-28.5 38.5-36.2 94.5-23.4 142.6h46.8z" fill="#FF7058"></path>
-            <path class="tip" d="M273 104.7c-4.4-10.6-9.9-20.6-16.6-29.7-6.7 9-12.2 19-16.6 29.7H273z" fill="#2E3B39"></path>
-            <circle cx="256.3" cy="144.8" fill="#FFF" r="15.5"></circle>
-            <circle class="circle" cx="256.3" cy="144.8" fill="#84DBFF" r="12.2"></circle>
-            <path class="removehole" d="M267.5 139.9l-16 16c4.5 2 9.8 1.1 13.5-2.5 3.6-3.7 4.5-9.1 2.5-13.5z" fill="#54C0EB"></path>
-            <path class="fuel" d="M276.8 234.9c.4-2.4.6-5.1.6-7.9 0-12.1-3.9-21.8-8.8-21.8s-8.8 9.8-8.8 21.8c0 2.8.2 5.4.6 7.9h16.4zM252.3 234.9c.4-2.4.6-5.1.6-7.9 0-12.1-3.9-21.8-8.8-21.8-4.8 0-8.8 9.8-8.8 21.8 0 2.8.2 5.4.6 7.9h16.4z" fill="#FFD05B"></path>
-            <path class="smoke" d="M416.6 358.8c0-1.8-.4-3.6-1-5.2-2.1-5.6-7.5-9.6-13.8-9.6-.7 0-1.4.1-2.1.2-.3-9.6-8.2-17.3-17.9-17.3-2.1 0-4.2.4-6.1 1.1-3-5.6-8.9-9.4-15.7-9.4-.5 0-1 0-1.5.1-.5 0-1-.1-1.5-.1-6.8 0-12.7 3.8-15.7 9.4-1.9-.7-3.9-1.1-6.1-1.1-9.9 0-17.9 8-17.9 17.9 0 1.1.1 2.3.3 3.3-.9-.2-1.8-.3-2.8-.3-5.1 0-9.5 2.6-12.1 6.5-2.2-1.4-4.9-2.3-7.8-2.3-7.6 0-13.8 5.9-14.4 13.3h-.1c-5.9 0-11 3.6-13.2 8.7-2.6-3-6.5-5-10.9-5h-.1-.5-.1-.1c-4.3 0-8.2 1.9-10.9 5-2.2-5.1-7.3-8.7-13.2-8.7h-.1c-.6-7.5-6.8-13.3-14.4-13.3-2.9 0-5.5.8-7.8 2.3-2.6-3.9-7-6.5-12.1-6.5-.9 0-1.9.1-2.8.3.2-1.1.3-2.2.3-3.3 0-9.9-8-17.9-17.9-17.9-2.1 0-4.2.4-6.1 1.1-3-5.6-8.9-9.4-15.7-9.4-.5 0-1 0-1.5.1-.5 0-1-.1-1.5-.1-6.8 0-12.7 3.8-15.7 9.4-1.9-.7-3.9-1.1-6.1-1.1-9.7 0-17.6 7.7-17.9 17.3-.7-.1-1.4-.2-2.1-.2-6.3 0-11.7 4-13.8 9.6-.6 1.6-1 3.4-1 5.2 0 4 1.6 7.6 4.2 10.3-.5 1.2-.8 2.6-.8 4 0 6 4.9 10.9 10.9 10.9H402c6 0 10.9-4.9 10.9-10.9 0-1.4-.3-2.8-.8-4 2.9-2.7 4.5-6.3 4.5-10.3z" fill="#E6E9EE"></path>
-            <rect class="exhaust" fill="#6DDCBD" x="241" y="220" width="30" height="8"></rect>
-            <rect class="exhaust two" fill="#FF871C" x="245" y="231" width="20" height="9"></rect>
-            <rect class="exhaust__line" fill="#E6E9EE" x="252" y="240" width="7" height="70"></rect>
-            <path class="flame" d="M 6.7 1.14 l 2.8 4.7 s 1.3 3 -1.82 3.22 l -5.4 0 s -3.28 -.14 -1.74 -3.26 l 2.76 -4.7 s 1.7 -2.3 3.4 0 z" fill="#AA2247"></path>
-          </svg>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+    <!-- Custom styles for this template -->
+    <link href="static/css/product.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="site-header sticky-top py-1">
+      <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <a class="py-2" href="#">
+          <!--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>-->
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 142 142" enable-background="new 0 0 142 142" xml:space="preserve">  <image id="image0" width="142" height="142" x="0" y="0"
+    xlink:href="data:image/png;base64,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" />
+</svg>
+
+        </a>
+    <!--<a class="py-2 d-none d-md-inline-block" href="#">Tour</a> -->
+        <a class="py-2 d-none d-md-inline-block" href="#">产品</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">未来</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">企业文化</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">技术支持</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">加入我们</a>
+    <!--<a class="py-2 d-none d-md-inline-block" href="#">Cart</a>-->
+      </div>
+    </nav>
+
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+      <div class="col-md-5 p-lg-5 mx-auto my-5">
+        <h1 class="display-4 font-weight-normal">InTimeTecah</h1>
+        <p class="lead font-weight-normal">家居新零售的开创者，拥有专业AR的技术能力，还原家具，让其可以展现出原有匠人的工业与别具一格的设计，映像家居你值得拥有。</p>
+        <!--<a class="btn btn-outline-secondary" href="#">Coming soon</a>-->
+      </div>
+      <div class="product-device shadow-sm d-none d-md-block"></div>
+      <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
         </div>
-        <h2>The install worked successfully! Congratulations!</h2>
-        <p>You are seeing this page because <a href="https://docs.djangoproject.com/en/2.1/ref/settings/#debug" target="_blank" rel="noopener">DEBUG=True</a> is in your settings file and you have not configured any URLs.</p>
-      </main>
-      <footer class="u-clearfix">
-        <a href="https://docs.djangoproject.com/en/2.1/" target="_blank" rel="noopener">
-        <div class="option one">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <defs>
-                    <path d="M0 0h24v24H0V0z" id="a"></path>
-                </defs>
-                <clipPath id="b">
-                    <use overflow="visible" xlink:href="#a"></use>
-                </clipPath>
-                <path clip-path="url(#b)" d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"></path>
-            </svg>
-            <div>
-                <h4>Django Documentation</h4>
-                <p>Topics, references, &amp; how-to's</p>
-            </div>
+        <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
         </div>
-      </a>
-      <a href="https://docs.djangoproject.com/en/2.1/intro/tutorial01/" target="_blank" rel="noopener">
-        <div class="option two">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0V0z" fill="none"></path>
-            <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"></path>
-          </svg>
-          <div>
-            <h4>Tutorial: A Polling App</h4>
-            <p>Get started with Django</p>
-          </div>
+        <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
         </div>
-      </a>
-      <a href="https://www.djangoproject.com/community/" target="_blank" rel="noopener">
-        <div class="option three">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-          </svg>
-          <div>
-            <h4>Django Community</h4>
-            <p>Connect, get help, or contribute</p>
-          </div>
+        <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-primary mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
         </div>
-      </a>
-      </footer>
-    </body>
+        <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-white shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-white shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-white shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3">
+          <h2 class="display-5">Another headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div class="bg-white shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+      </div>
+    </div>
+
+    <footer class="container py-5">
+      <div class="row">
+        <div class="col-12 col-md">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mb-2"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
+          <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Features</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Cool stuff</a></li>
+            <li><a class="text-muted" href="#">Random feature</a></li>
+            <li><a class="text-muted" href="#">Team feature</a></li>
+            <li><a class="text-muted" href="#">Stuff for developers</a></li>
+            <li><a class="text-muted" href="#">Another one</a></li>
+            <li><a class="text-muted" href="#">Last time</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Resource</a></li>
+            <li><a class="text-muted" href="#">Resource name</a></li>
+            <li><a class="text-muted" href="#">Another resource</a></li>
+            <li><a class="text-muted" href="#">Final resource</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Business</a></li>
+            <li><a class="text-muted" href="#">Education</a></li>
+            <li><a class="text-muted" href="#">Government</a></li>
+            <li><a class="text-muted" href="#">Gaming</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>About</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Team</a></li>
+            <li><a class="text-muted" href="#">Locations</a></li>
+            <li><a class="text-muted" href="#">Privacy</a></li>
+            <li><a class="text-muted" href="#">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+  </body>
 </html>
